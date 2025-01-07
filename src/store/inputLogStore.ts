@@ -15,7 +15,7 @@ interface InputLogState {
 
 export const useInputLogStore = create<InputLogState>((set) => ({
   logs: [],
-  isMouseLoggingEnabled: false,
+  isMouseLoggingEnabled: true,
   isKeyboardLoggingEnabled: false,
   addLog: (type, details) => set((state) => {
     // Only add logs if the corresponding logging is enabled

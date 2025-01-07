@@ -4,8 +4,8 @@ import { SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 import { InputLog } from './components/InputLog'
 import { useInputLogStore } from './store/inputLogStore'
 import config from '../tamagui.config'
-
-type InputEventType = 'mouse_move' | 'mouse_click' | 'keyboard'
+import { invoke } from '@tauri-apps/api/core'
+import { listen } from '@tauri-apps/api/event'
 
 export default function App() {
   const [isDark, setIsDark] = useState(false)
@@ -19,33 +19,48 @@ export default function App() {
     toggleKeyboardLogging 
   } = useInputLogStore()
 
-  // Test logging - will be replaced with actual input events
   useEffect(() => {
-    if (!isMouseLoggingEnabled && !isKeyboardLoggingEnabled) return
+    if (!isRunning) {
+      console.log('[React] Input tracking stopped');
+      invoke('stop_input_tracking').catch(error => {
+        console.error('[React] Error stopping input tracking:', error);
+      });
+      return;
+    }
 
-    const interval = setInterval(() => {
-      const events: InputEventType[] = []
-      if (isMouseLoggingEnabled) {
-        events.push('mouse_move', 'mouse_click')
-      }
-      if (isKeyboardLoggingEnabled) {
-        events.push('keyboard')
-      }
-      
-      if (events.length === 0) return
-      
-      const event = events[Math.floor(Math.random() * events.length)]
-      const details = event === 'mouse_move' 
-        ? `x: ${Math.floor(Math.random() * 1000)}, y: ${Math.floor(Math.random() * 1000)}`
-        : event === 'mouse_click'
-          ? `button: ${Math.random() > 0.5 ? 'left' : 'right'}`
-          : `key: ${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`
-      
-      addLog(event, details)
-    }, 1000)
+    const setupInputTracking = async () => {
+      try {
+        console.log('[React] Starting input tracking...');
+        await invoke('start_input_tracking');
+        console.log('[React] Input tracking started successfully');
 
-    return () => clearInterval(interval)
-  }, [addLog, isMouseLoggingEnabled, isKeyboardLoggingEnabled])
+        const unlisten = await listen('input_event', (event: any) => {
+          console.log('[React] Received event:', JSON.stringify(event, null, 2));
+          const { event_type, details } = event.payload;
+          
+          if (
+            (event_type === 'keyboard' && !isKeyboardLoggingEnabled) ||
+            ((event_type === 'mouse_move' || event_type === 'mouse_click') && !isMouseLoggingEnabled)
+          ) {
+            console.log('[React] Event filtered out due to logging settings:', event_type);
+            return;
+          }
+
+          console.log('[React] Adding event to log:', event_type, details);
+          addLog(event_type, details);
+        });
+
+        return () => {
+          console.log('[React] Cleaning up event listener');
+          unlisten();
+        };
+      } catch (error) {
+        console.error('[React] Error setting up input tracking:', error);
+      }
+    };
+
+    setupInputTracking();
+  }, [isRunning, isMouseLoggingEnabled, isKeyboardLoggingEnabled, addLog]);
 
   return (
     <TamaguiProvider config={config}>
