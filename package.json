@@ -10,13 +10,20 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@tamagui/animations-react-native": "^1.121.6",
+    "@tamagui/config": "^1.121.6",
+    "@tamagui/core": "^1.121.6",
+    "@tamagui/themes": "^1.121.6",
     "@tauri-apps/api": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2.2.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tamagui": "^1.121.6"
   },
   "devDependencies": {
+    "@tamagui/vite-plugin": "^1.121.6",
     "@tauri-apps/cli": "^2.2.2",
+    "@types/node": "^22.10.5",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",

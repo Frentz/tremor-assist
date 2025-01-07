@@ -1,51 +1,65 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import { useEffect, useState } from 'react'
+import { TamaguiProvider, Theme, YStack, XStack, Button, Text, Switch } from 'tamagui'
+import config from '../tamagui.config'
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  const [isDark, setIsDark] = useState(false)
+  const [isRunning, setIsRunning] = useState(false)
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <TamaguiProvider config={config}>
+      <Theme name={isDark ? 'dark' : 'light'}>
+        <YStack
+          f={1}
+          backgroundColor="$background"
+          padding="$4"
+          space="$4"
+        >
+          <XStack
+            justifyContent="space-between"
+            alignItems="center"
+            padding="$2"
+          >
+            <Text
+              fontFamily="$heading"
+              fontSize="$8"
+              color="$color"
+            >
+              Tremor Assist
+            </Text>
+            <XStack space="$2" alignItems="center">
+              <Text color="$color">Dark Mode</Text>
+              <Switch
+                checked={isDark}
+                onCheckedChange={setIsDark}
+                size="$3"
+              />
+            </XStack>
+          </XStack>
 
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
+          <YStack space="$4" flex={1} justifyContent="center" alignItems="center">
+            <Button
+              size="$6"
+              theme={isRunning ? 'red' : 'blue'}
+              onPress={() => setIsRunning(!isRunning)}
+            >
+              {isRunning ? 'Stop Assistance' : 'Start Assistance'}
+            </Button>
 
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
-  );
+            <Text
+              color="$color"
+              opacity={0.7}
+              textAlign="center"
+            >
+              {isRunning
+                ? 'Mouse movement assistance is active'
+                : 'Click to start mouse movement assistance'}
+            </Text>
+          </YStack>
+        </YStack>
+      </Theme>
+    </TamaguiProvider>
+  )
 }
 
-export default App;
+export default App
