@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
-import { TamaguiProvider, Theme, YStack, XStack, Button, Text, Switch } from 'tamagui'
+import { useState } from 'react'
+import { TamaguiProvider, Theme, YStack, XStack, Button, Text } from 'tamagui'
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 import config from '../tamagui.config'
 
 function App() {
@@ -11,44 +12,49 @@ function App() {
       <Theme name={isDark ? 'dark' : 'light'}>
         <YStack
           f={1}
-          backgroundColor="$background"
-          padding="$4"
+          bg="$background"
+          p="$4"
           space="$4"
         >
           <XStack
-            justifyContent="space-between"
-            alignItems="center"
-            padding="$2"
+            jc="space-between"
+            ai="center"
+            py="$2"
           >
             <Text
-              fontFamily="$heading"
-              fontSize="$8"
               color="$color"
+              fontSize="$8"
+              fontWeight="$8"
             >
               Tremor Assist
             </Text>
-            <XStack space="$2" alignItems="center">
-              <Text color="$color">Dark Mode</Text>
-              <Switch
-                checked={isDark}
-                onCheckedChange={setIsDark}
-                size="$3"
-              />
-            </XStack>
+            <Button
+              size="$3"
+              circular
+              chromeless
+              onPress={() => setIsDark(!isDark)}
+              icon={
+                isDark ? 
+                <MoonIcon width={22} height={22} style={{ color: 'white' }} /> :
+                <SunIcon width={22} height={22} style={{ color: 'black' }} />
+              }
+            />
           </XStack>
 
-          <YStack space="$4" flex={1} justifyContent="center" alignItems="center">
+          <YStack f={1} jc="center" ai="center" space="$4">
             <Button
-              size="$6"
+              size="$5"
               theme={isRunning ? 'red' : 'blue'}
               onPress={() => setIsRunning(!isRunning)}
+              pressStyle={{ scale: 0.97 }}
+              animation="quick"
             >
               {isRunning ? 'Stop Assistance' : 'Start Assistance'}
             </Button>
 
             <Text
-              color="$color"
-              opacity={0.7}
+              theme="alt2"
+              size="$3"
               textAlign="center"
             >
               {isRunning

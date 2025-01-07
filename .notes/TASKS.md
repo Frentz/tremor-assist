@@ -27,11 +27,12 @@
 
 ## Frontend
 ### Core UI
-- [ ] Install and configure Tamagui (`tamagui`, `@tamagui/core`, `@tamagui/config`)
-- [ ] Set up TamaguiProvider with custom config
-- [ ] Create theme tokens and design system
-- [ ] Implement dark/light theme using Tamagui's theme system
-- [ ] Build responsive layout using Tamagui Stack and YStack
+- [x] Install and configure Tamagui
+- [x] Set up TamaguiProvider with custom config
+- [x] Create theme tokens and design system
+- [x] Implement dark/light theme using Tamagui's theme system
+- [x] Build responsive layout using Tamagui Stack and YStack
+- [x] Add Heroicons integration
 - [ ] Create settings interface using Tamagui Form components
 - [ ] Add movement visualization with Tamagui animations
 - [ ] Build profile management UI with Tamagui Card and Sheet
@@ -39,15 +40,16 @@
 - [ ] Set up custom component library extending Tamagui base
 
 ### State Management
+- [x] Set up theme state with Tamagui
 - [ ] Set up Zustand store with Tamagui theme integration
 - [ ] Implement settings persistence with type-safe tokens
 - [ ] Add profile state management
 - [ ] Create performance metrics store
 - [ ] Add error state handling with Tamagui Toast
-- [ ] Implement theme state with Tamagui useTheme
 - [ ] Set up media query hooks with Tamagui useMedia
 
 ### User Experience
+- [x] Implement theme toggle with icon button
 - [ ] Create onboarding flow using Tamagui Carousel
 - [ ] Build help documentation with Tamagui Popover
 - [ ] Implement keyboard shortcuts with Toast notifications

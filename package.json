@@ -10,9 +10,12 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.1.1",
+    "@heroicons/react": "^2.2.0",
     "@tamagui/animations-react-native": "^1.121.6",
     "@tamagui/config": "^1.121.6",
     "@tamagui/core": "^1.121.6",
+    "@tamagui/font-inter": "^1.121.6",
     "@tamagui/themes": "^1.121.6",
     "@tauri-apps/api": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2.2.3",

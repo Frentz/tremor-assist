@@ -1,8 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import "@tamagui/core/reset.css";
-import { createRoot } from "react-dom/client";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
 
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2024-01-07
+
+### Added
+- Integrated Tamagui UI framework for consistent theming
+- Added dark/light mode support with theme toggle
+- Implemented minimalistic UI design
+- Added Heroicons for improved iconography
+- Created basic app layout with theme-aware components
+
+### Dependencies Added
+- tamagui: ^1.121.6
+- @tamagui/core: ^1.121.6
+- @tamagui/config: ^1.121.6
+- @heroicons/react: ^2.2.0
+- @fontsource/inter: ^5.1.1
+
 ## [0.1.0] - 2024-01-07
 
 ### Added

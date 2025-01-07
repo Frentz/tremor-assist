@@ -2,10 +2,10 @@
 
 ## Milestone 1: Core Infrastructure (Week 1-2)
 - [x] Initial project setup with Tauri 2.2.0
-- [ ] Set up Tamagui with custom theme configuration
-- [ ] Create base component library with Tamagui
-- [ ] Implement responsive layout system
-- [ ] Set up dark/light theme with Tamagui tokens
+- [x] Set up Tamagui with custom theme configuration
+- [x] Create base component library with Tamagui
+- [x] Implement responsive layout system
+- [x] Set up dark/light theme with Tamagui tokens
 - [ ] Rust backend structure
 - [ ] Basic mouse event capture system
 - [ ] Permission handling system
