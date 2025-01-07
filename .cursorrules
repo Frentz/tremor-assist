@@ -1,0 +1,188 @@
+{
+  "version": "1.0",
+  "context_initialization": {
+    "required_reading": [
+      ".notes/MISSION.md",
+      ".notes/ARCHITECTURE.md"
+    ],
+    "project_scope": {
+      "name": "Tremor Assist",
+      "type": "accessibility-software",
+      "platforms": ["macos", "windows"]
+    }
+  },
+  "technology_requirements": {
+    "critical": {
+      "tauri": {
+        "version": "2.2.0",
+        "cli_version": "2.2.1",
+        "api_version": "2.2.0",
+        "bundler_version": "2.2.0",
+        "documentation": "https://v2.tauri.app",
+        "required_imports": [
+          "@tauri-apps/api@2.2.0/window",
+          "@tauri-apps/api@2.2.0/event"
+        ],
+        "forbidden_imports": [
+          "@tauri-apps/api/tauri",
+          "tauri/api",
+          "@tauri-apps/api@1.*"
+        ],
+        "dependencies": {
+          "wry": "0.48.0",
+          "tao": "0.31.0"
+        }
+      },
+      "package_management": {
+        "yarn": {
+          "version": ">=1.22.0",
+          "required": true,
+          "forbidden": ["npm", "pnpm"],
+          "commands": {
+            "correct": [
+              "yarn install",
+              "yarn add",
+              "yarn remove",
+              "yarn dev"
+            ],
+            "incorrect": [
+              "npm install",
+              "npm run",
+              "pnpm install"
+            ]
+          }
+        }
+      },
+      "enigo": {
+        "version": "0.3.0",
+        "documentation": "https://docs.rs/enigo/0.3.0",
+        "required_patterns": [
+          "Enigo::new(&Settings::default())",
+          "use enigo::{Enigo, Settings, Mouse}"
+        ]
+      }
+    },
+    "ui": {
+      "theming": {
+        "required": true,
+        "modes": ["dark", "light"],
+        "component_rules": [
+          "All components must support both dark and light themes",
+          "Use theme-aware color variables instead of hard-coded colors",
+          "Test all components in both themes before commit"
+        ],
+        "color_patterns": {
+          "correct": [
+            "useTheme()",
+            "theme.colors",
+            "colorScheme={colorScheme}"
+          ],
+          "incorrect": [
+            "backgroundColor: '#000'",
+            "color: 'white'",
+            "hardcoded hex values"
+          ]
+        },
+        "implementation": {
+          "required_hooks": ["useColorScheme", "useTheme"],
+          "required_props": ["colorScheme", "theme"],
+          "required_tests": [
+            "renders correctly in light mode",
+            "renders correctly in dark mode",
+            "handles theme switching"
+          ]
+        }
+      },
+      "accessibility": {
+        "contrast_requirements": {
+          "normal_text": "4.5:1",
+          "large_text": "3:1"
+        }
+      }
+    },
+    "frontend": {
+      "react": "latest",
+      "typescript": {
+        "strict": true,
+        "target": "ES2022"
+      }
+    }
+  },
+  "component_guidelines": {
+    "new_components": [
+      "Must implement dark and light theme support",
+      "Must use theme-aware styling",
+      "Must include theme switching capability",
+      "Must maintain accessibility in both themes"
+    ],
+    "styling_patterns": {
+      "correct": [
+        "Use theme tokens for colors",
+        "Implement responsive design",
+        "Support system theme preferences"
+      ],
+      "incorrect": [
+        "Hard-coded colors",
+        "Theme-specific styles",
+        "Missing dark/light variants"
+      ]
+    }
+  },
+  "operational_protocol": {
+    "before_action": [
+      "Verify technology version compatibility",
+      "Check yarn.lock for conflicts",
+      "Verify theme support in components",
+      "Create MECE task breakdown",
+      "Check platform-specific requirements"
+    ],
+    "code_changes": [
+      "Maintain < 5ms latency in mouse operations",
+      "Ensure thread safety in mouse control",
+      "Implement proper error handling",
+      "Verify theme compatibility"
+    ]
+  },
+  "safety_requirements": [
+    "Validate all mouse input",
+    "Check OS permissions before operations",
+    "Implement proper error recovery",
+    "Maintain type safety",
+    "Ensure theme consistency"
+  ],
+  "priorities": {
+    "files": [
+      {
+        "source": "src-tauri/src/lib.rs",
+        "weight": 1.0,
+        "focus": "mouse control core"
+      },
+      {
+        "source": "src/hooks/useMouseTracker.ts",
+        "weight": 0.9,
+        "focus": "movement tracking"
+      },
+      {
+        "source": "src/theme",
+        "weight": 0.8,
+        "focus": "theme configuration"
+      }
+    ],
+    "documentation": {
+      "source": ".notes/",
+      "weight": 1.0
+    }
+  },
+  "modes": {
+    "base": {
+      "description": "Routine development tasks",
+      "version_check": true,
+      "theme_check": true
+    },
+    "enhanced": {
+      "description": "Complex algorithm optimization",
+      "performance_critical": true,
+      "latency_threshold": "5ms"
+    }
+  }
+}

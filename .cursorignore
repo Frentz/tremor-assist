@@ -1,0 +1,64 @@
+# Package management
+node_modules/
+.yarn/
+.yarnrc
+.yarn-integrity
+npm-debug.log*
+package-lock.json
+pnpm-lock.yaml
+
+# Keep yarn files
+!yarn.lock
+!.yarnrc.yml
+
+# Build outputs
+dist/
+target/
+build/
+*.exe
+*.dmg
+
+# Development
+.env
+.env.*
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+__tests__/
+*.test.ts
+*.spec.ts
+
+# Generated files
+*.generated.ts
+*.generated.rs
+src-tauri/gen/
+
+# Platform specific
+.cargo/
+*.pdb
+*.dSYM/
+
+# Documentation
+docs/
+*.md
+!.notes/*.md
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Debug
+debug/
+.debug/
