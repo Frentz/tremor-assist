@@ -43,7 +43,8 @@
               "yarn install",
               "yarn add",
               "yarn remove",
-              "yarn dev"
+              "yarn tauri dev",
+              "yarn tauri build"
             ],
             "incorrect": [
               "npm install",

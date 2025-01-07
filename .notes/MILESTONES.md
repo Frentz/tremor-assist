@@ -6,6 +6,8 @@
 - [x] Create base component library with Tamagui
 - [x] Implement responsive layout system
 - [x] Set up dark/light theme with Tamagui tokens
+- [x] Create input logging interface
+- [x] Add input type toggles (mouse/keyboard)
 - [ ] Rust backend structure
 - [ ] Basic mouse event capture system
 - [ ] Permission handling system

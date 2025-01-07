@@ -2,6 +2,9 @@
 
 ## Mouse Control System
 ### Input Capture
+- [x] Create input log visualization UI
+- [x] Implement input type toggles (mouse/keyboard)
+- [x] Add input event filtering
 - [ ] Implement CGEvent tap for macOS
 - [ ] Create Windows input capture system
 - [ ] Build input event buffer
@@ -33,6 +36,8 @@
 - [x] Implement dark/light theme using Tamagui's theme system
 - [x] Build responsive layout using Tamagui Stack and YStack
 - [x] Add Heroicons integration
+- [x] Create input log visualization component
+- [x] Add input type toggle switches
 - [ ] Create settings interface using Tamagui Form components
 - [ ] Add movement visualization with Tamagui animations
 - [ ] Build profile management UI with Tamagui Card and Sheet
@@ -41,6 +46,8 @@
 
 ### State Management
 - [x] Set up theme state with Tamagui
+- [x] Create input log state management
+- [x] Implement input type toggle state
 - [ ] Set up Zustand store with Tamagui theme integration
 - [ ] Implement settings persistence with type-safe tokens
 - [ ] Add profile state management
