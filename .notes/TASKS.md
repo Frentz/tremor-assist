@@ -1,5 +1,24 @@
 # Development Tasks
 
+## Immediate Bug Fixes
+### Input Logging Issues
+- [x] Add manual clear functionality for input logs
+- [x] Fix duplicate keyboard event logging
+- [x] Make input log container resizable
+- [x] Remove automatic log clearing on toggle
+- [x] Fix inconsistent keyboard release events
+
+### Console Logging
+- [x] Improve input tracking status logs
+  - [x] Show which inputs are being tracked (mouse/keyboard)
+  - [x] Remove redundant stop tracking messages
+  - [x] Add proper startup sequence logging
+- [x] Enhance console logging
+  - [x] Add timestamps matching UI format [HH:MM:SS.mmm]
+  - [x] Add component interaction logging (toggles, buttons, clear)
+  - [x] Make log messages more concise (single line when possible)
+  - [x] Ensure logs can be correlated with UI events
+
 ## Core Systems
 
 ### Mouse Control System

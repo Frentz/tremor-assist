@@ -10,6 +10,16 @@ import { listen } from '@tauri-apps/api/event'
 export default function App() {
   const [isDark, setIsDark] = useState(false)
   const [isRunning, setIsRunning] = useState(false)
+
+  const formatTime = () => {
+    const now = new Date();
+    return `[${now.toTimeString().split(' ')[0]}.${now.getMilliseconds().toString().padStart(3, '0')}]`;
+  }
+
+  const log = (msg: string) => {
+    console.log(`${formatTime()} ${msg}`);
+  }
+
   const { 
     logs, 
     addLog, 
@@ -20,47 +30,73 @@ export default function App() {
   } = useInputLogStore()
 
   useEffect(() => {
-    if (!isRunning) {
-      console.log('[React] Input tracking stopped');
-      invoke('stop_input_tracking').catch(error => {
-        console.error('[React] Error stopping input tracking:', error);
+    let unlisten: (() => void) | undefined;
+
+    const cleanup = async () => {
+      if (unlisten) {
+        await unlisten();
+        unlisten = undefined;
+      }
+      
+      await invoke('stop_input_tracking').catch(error => {
+        log(`Error stopping input tracking: ${error}`);
       });
-      return;
-    }
+    };
 
     const setupInputTracking = async () => {
       try {
-        console.log('[React] Starting input tracking...');
-        await invoke('start_input_tracking');
-        console.log('[React] Input tracking started successfully');
+        await cleanup();
 
-        const unlisten = await listen('input_event', (event: any) => {
-          console.log('[React] Received event:', JSON.stringify(event, null, 2));
+        if (!isRunning) return;
+
+        await invoke('start_input_tracking');
+
+        unlisten = await listen('input_event', (event: any) => {
           const { event_type, details } = event.payload;
           
+          // Filter events based on type and logging settings
+          const isKeyboardEvent = event_type.startsWith('keyboard_');
+          const isMouseEvent = event_type.startsWith('mouse_');
+          
           if (
-            (event_type === 'keyboard' && !isKeyboardLoggingEnabled) ||
-            ((event_type === 'mouse_move' || event_type === 'mouse_click') && !isMouseLoggingEnabled)
+            (isKeyboardEvent && !isKeyboardLoggingEnabled) ||
+            (isMouseEvent && !isMouseLoggingEnabled)
           ) {
-            console.log('[React] Event filtered out due to logging settings:', event_type);
             return;
           }
 
-          console.log('[React] Adding event to log:', event_type, details);
           addLog(event_type, details);
         });
-
-        return () => {
-          console.log('[React] Cleaning up event listener');
-          unlisten();
-        };
       } catch (error) {
-        console.error('[React] Error setting up input tracking:', error);
+        log(`Error setting up input tracking: ${error}`);
       }
     };
 
     setupInputTracking();
+    return () => {
+      cleanup();
+    };
   }, [isRunning, isMouseLoggingEnabled, isKeyboardLoggingEnabled, addLog]);
+
+  const handleMouseLoggingToggle = async () => {
+    await invoke('set_mouse_logging', { enabled: !isMouseLoggingEnabled });
+    toggleMouseLogging();
+  };
+
+  const handleKeyboardLoggingToggle = async () => {
+    await invoke('set_keyboard_logging', { enabled: !isKeyboardLoggingEnabled });
+    toggleKeyboardLogging();
+  };
+
+  const handleThemeToggle = () => {
+    log(`Theme switched to ${!isDark ? 'dark' : 'light'} mode`);
+    setIsDark(!isDark);
+  };
+
+  const handleAssistanceToggle = () => {
+    log(`Assistance ${!isRunning ? 'started' : 'stopped'}`);
+    setIsRunning(!isRunning);
+  };
 
   return (
     <TamaguiProvider config={config}>
@@ -87,7 +123,7 @@ export default function App() {
               size="$3"
               circular
               chromeless
-              onPress={() => setIsDark(!isDark)}
+              onPress={handleThemeToggle}
               icon={
                 isDark ? 
                 <MoonIcon width={22} height={22} style={{ color: 'white' }} /> :
@@ -100,7 +136,7 @@ export default function App() {
             <Button
               size="$5"
               theme={isRunning ? 'red' : 'blue'}
-              onPress={() => setIsRunning(!isRunning)}
+              onPress={handleAssistanceToggle}
               pressStyle={{ scale: 0.97 }}
             >
               {isRunning ? 'Stop Assistance' : 'Start Assistance'}
@@ -121,7 +157,7 @@ export default function App() {
                 <Switch
                   id="mouse-logging"
                   checked={isMouseLoggingEnabled}
-                  onCheckedChange={toggleMouseLogging}
+                  onCheckedChange={handleMouseLoggingToggle}
                 >
                   <Switch.Thumb />
                 </Switch>
@@ -134,7 +170,7 @@ export default function App() {
                 <Switch
                   id="keyboard-logging"
                   checked={isKeyboardLoggingEnabled}
-                  onCheckedChange={toggleKeyboardLogging}
+                  onCheckedChange={handleKeyboardLoggingToggle}
                 >
                   <Switch.Thumb />
                 </Switch>
