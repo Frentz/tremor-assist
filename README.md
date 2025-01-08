@@ -1,44 +1,71 @@
 # Tremor Assist
 
-A desktop application built with Tauri to assist users with hand tremors by providing mouse movement smoothing. Our mission is to help individuals with tremors use computers more effectively through intelligent, adaptive assistance.
+An accessibility-focused desktop application designed to help users with tremors use computers more effectively. The application provides real-time mouse movement assistance with adaptive smoothing algorithms.
 
-## Documentation Guide
-Start here to understand the project:
-1. 📋 [Mission & Vision](./.notes/MISSION.md)
-2. 🚀 [Development Roadmap](./.notes/MILESTONES.md)
-3. ✅ [Current Tasks](./.notes/TASKS.md)
-4. 🔧 [Technical Architecture](./.notes/ARCHITECTURE.md)
-5. 💻 [Development Guide](./.notes/DEVELOPMENT.md)
-6. 👥 [Contributing Guidelines](./.notes/CONTRIBUTING.md)
-7. 🔒 [Security Policy](./.notes/SECURITY.md)
-8. 📝 [Version History](./CHANGELOG.md)
+## Features
 
-## Key Features
-- Real-time hardware input tracking with visual feedback
-- Stable keyboard input handling across platforms
-- High-performance event processing (~60fps)
-- Toggleable mouse and keyboard logging
-- Cross-platform support (Windows, macOS)
-- Privacy-focused: all processing happens locally
+- Real-time input tracking with minimal latency
+- Separate mouse and keyboard logging toggles
+- Resizable input log visualization
 - Dark/light theme support
-- Clean, modern UI with Tamagui
+- Clear and concise console logging
+- Adaptive mouse movement assistance (coming soon)
 
-## Quick Links
-- **Getting Started**: See [Development Guide](./.notes/DEVELOPMENT.md) for setup and guidelines
-- **Current Status**: Check [Current Tasks](./.notes/TASKS.md) for active development
-- **Architecture**: Review [Technical Architecture](./.notes/ARCHITECTURE.md) for technical details
-- **Security**: Review [Security Policy](./.notes/SECURITY.md) before contributing
+## Getting Started
 
-## Technical Overview
-- Frontend: React 19 + TypeScript + Tamagui 1.121.6
-- Backend: Rust + Tauri 2.2.0
-- Input Tracking: Custom rdev fork for improved stability
-- State Management: Zustand 5.0.2
-- Build System: Vite + Tauri CLI
+### Prerequisites
 
-## Platform Support
-- **macOS**: Full support with stable keyboard input
-- **Windows**: Native input handling support
+- Node.js 18+
+- Yarn 1.22+
+- Rust (latest stable)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/tremor-assist.git
+cd tremor-assist
+```
+
+2. Install dependencies:
+```bash
+yarn install
+```
+
+3. Start the development server:
+```bash
+yarn tauri dev
+```
+
+## Development
+
+- Built with Tauri 2.2.0 and React
+- Uses Tamagui for UI components
+- Implements custom fork of rdev for input handling
+- Follows strict TypeScript configuration
+
+### Project Structure
+
+- `src/` - Frontend React application
+- `src-tauri/` - Rust backend code
+- `.notes/` - Project documentation
+- `src/components/` - React components
+- `src/store/` - State management
+
+## Documentation
+
+- [Mission Statement](.notes/MISSION.md)
+- [Architecture](.notes/ARCHITECTURE.md)
+- [Development Guide](.notes/DEVELOPMENT.md)
+- [Contributing](.notes/CONTRIBUTING.md)
+- [Security](.notes/SECURITY.md)
 
 ## License
-MIT License - See [LICENSE](./LICENSE) file for details
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- [Tauri](https://tauri.app) for the framework
+- [Tamagui](https://tamagui.dev) for UI components
+- [rdev](https://github.com/fufesou/rdev) for input handling
