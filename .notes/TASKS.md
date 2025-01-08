@@ -1,6 +1,6 @@
 # Development Tasks
 
-## Immediate Bug Fixes
+## Immediate Bug Fixes ✅
 ### Input Logging Issues
 - [x] Add manual clear functionality for input logs
 - [x] Fix duplicate keyboard event logging
@@ -18,6 +18,36 @@
   - [x] Add component interaction logging (toggles, buttons, clear)
   - [x] Make log messages more concise (single line when possible)
   - [x] Ensure logs can be correlated with UI events
+
+## Next Priority Tasks 🚧
+### Mouse Control System
+- [ ] Implement basic mouse movement smoothing
+  - [ ] Create movement data structure
+  - [ ] Add smoothing algorithm interface
+  - [ ] Implement basic smoothing function
+  - [ ] Add parameter configuration
+- [ ] Add smoothing parameter adjustment UI
+  - [ ] Create settings panel
+  - [ ] Add parameter controls
+  - [ ] Implement live preview
+- [ ] Implement movement pattern analysis
+  - [ ] Add pattern detection
+  - [ ] Create analysis visualization
+  - [ ] Store pattern data
+
+### Frontend Improvements
+- [ ] Create settings panel
+  - [ ] Add smoothing parameters
+  - [ ] Include profile management
+  - [ ] Add performance settings
+- [ ] Implement calibration UI
+  - [ ] Add calibration workflow
+  - [ ] Create visualization
+  - [ ] Store calibration data
+- [ ] Add performance metrics display
+  - [ ] Show latency information
+  - [ ] Display event statistics
+  - [ ] Add resource usage info
 
 ## Core Systems
 
