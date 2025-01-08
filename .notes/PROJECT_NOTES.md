@@ -2,14 +2,11 @@
 
 ## Recent Changes
 ### Git History
-- feat: add clear button logging and improve console output
-  - Added console logging for clear button interaction
-  - Improved timestamp formatting consistency
-  - Enhanced event filtering and logging
-- fix: keyboard input handling on macOS - Switched to fufesou's rdev for better compatibility
-- feat: implement real hardware input tracking with rdev
-- docs: update changelog for v0.3.0
-- feat: add input logging interface with type toggles
+- 9355c46: fix: keyboard input handling on macOS - Switched to fufesou's rdev for better compatibility, updated docs, enhanced error handling
+- e2d1c1e: feat: implement real hardware input tracking with rdev
+- f725a02: docs: update changelog for v0.3.0
+- 6d6f0c0: feat: add input logging interface with type toggles
+- 951114d: docs: add development, contributing, and security documentation
 
 ## Project Overview
 Tremor Assist is an accessibility-focused desktop application designed to help users with tremors use computers more effectively. The application provides real-time mouse movement assistance with adaptive smoothing algorithms.
@@ -132,8 +129,6 @@ Currently in Phase 2: Core Functionality. Phase 1 (Foundation) has been complete
 - Event throttling at ~60fps for performance
 - Thread-safe event emission to frontend
 - Error recovery system in place
-- Comprehensive console logging with timestamps
-- Event filtering based on tracking state
 
 ### UI Implementation
 #### Component Structure
@@ -141,7 +136,6 @@ Currently in Phase 2: Core Functionality. Phase 1 (Foundation) has been complete
 - Theme component for dark/light mode switching
 - YStack and XStack for layout management
 - Custom InputLog component for event visualization
-- Resizable log container with drag handle
 
 #### Core Components
 1. App.tsx
@@ -150,7 +144,6 @@ Currently in Phase 2: Core Functionality. Phase 1 (Foundation) has been complete
    - Input tracking controls
    - Event listener setup
    - Logging toggles
-   - Console logging integration
 
 2. InputLog.tsx
    - Event visualization component
@@ -158,27 +151,12 @@ Currently in Phase 2: Core Functionality. Phase 1 (Foundation) has been complete
    - Color-coded event types
    - Timestamp formatting
    - Event type filtering
-   - Clear functionality with logging
-   - Resizable container implementation
 
 3. State Management
    - Zustand store for input logs
    - Maximum 1000 log entries
    - Separate mouse/keyboard logging flags
-   - Manual log clearing with console logging
-   - Preserved logs on toggle
-
-### Console Logging System
-- Consistent timestamp format [HH:MM:SS.mmm]
-- Component interaction logging
-  - Theme switching
-  - Assistance toggling
-  - Input type toggling
-  - Log clearing
-- Event filtering based on tracking state
-- Error logging with stack traces
-- Performance-related logging
-- Thread-safe logging implementation
+   - Automatic log clearing on toggle
 
 #### Theme System
 - Dark/light mode support using Tamagui themes

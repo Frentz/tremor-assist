@@ -41,15 +41,6 @@ function getEventColor(type: InputLogEntry['type']): string {
   return '$green10'
 }
 
-const formatTime = () => {
-  const now = new Date();
-  return `[${now.toTimeString().split(' ')[0]}.${now.getMilliseconds().toString().padStart(3, '0')}]`;
-}
-
-const log = (msg: string) => {
-  console.log(`${formatTime()} ${msg}`);
-}
-
 export function InputLog({ logs }: InputLogProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { clearLogs } = useInputLogStore()
