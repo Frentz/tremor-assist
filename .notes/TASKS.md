@@ -22,15 +22,27 @@
 ## Next Priority Tasks 🚧
 ### Mouse Control System
 - [ ] Implement mouse input suppression
-  - [ ] Add CGEvent tap for macOS
-  - [ ] Create Windows input suppression
-  - [ ] Maintain input tracking while suppressed
-  - [ ] Add toggle for suppression testing
+  - [ ] macOS implementation
+    - [ ] Set up CGEvent tap for mouse events
+    - [ ] Store original mouse position
+    - [ ] Implement event cancellation
+    - [ ] Track movement deltas
+  - [ ] Windows implementation
+    - [ ] Set up SetWindowsHookEx for mouse events
+    - [ ] Store original mouse position
+    - [ ] Implement event cancellation
+    - [ ] Track movement deltas
+  - [ ] Cross-platform
+    - [ ] Create position tracking system
+    - [ ] Implement delta calculation
+    - [ ] Add movement queue
+    - [ ] Set up thread-safe state management
   - [ ] Implement safety controls
     - [ ] Add emergency keyboard shortcut to disable suppression
     - [ ] Create global hotkey registration
     - [ ] Add visual indicator for active shortcuts
     - [ ] Test shortcut reliability
+    - [ ] Add position reset on disable
 
 ### Keyboard Shortcuts
 - [ ] Implement core shortcuts

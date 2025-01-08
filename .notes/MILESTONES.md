@@ -26,11 +26,18 @@
 ### In Progress
 - [ ] Mouse input control system
   1. Input suppression with safety controls
-     - Mouse movement suppression
+     - Platform-specific event hooks (CGEvent/WindowsHook)
+     - Position tracking and delta calculation
+     - Event cancellation system
+     - Thread-safe state management
      - Emergency keyboard shortcuts
      - Global hotkey registration
      - Visual safety indicators
   2. Artificial movement generation
+     - Movement queue implementation
+     - Delta-based movement calculation
+     - Position state management
+     - Smooth transition handling
   3. Movement smoothing implementation
   4. Parameter adjustment interface
 - [ ] Keyboard shortcut system
