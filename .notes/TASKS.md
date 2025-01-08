@@ -21,33 +21,31 @@
 
 ## Next Priority Tasks 🚧
 ### Mouse Control System
-- [ ] Implement basic mouse movement smoothing
-  - [ ] Create movement data structure
-  - [ ] Add smoothing algorithm interface
-  - [ ] Implement basic smoothing function
-  - [ ] Add parameter configuration
-- [ ] Add smoothing parameter adjustment UI
-  - [ ] Create settings panel
-  - [ ] Add parameter controls
-  - [ ] Implement live preview
-- [ ] Implement movement pattern analysis
-  - [ ] Add pattern detection
-  - [ ] Create analysis visualization
-  - [ ] Store pattern data
+- [ ] Implement mouse input suppression
+  - [ ] Add CGEvent tap for macOS
+  - [ ] Create Windows input suppression
+  - [ ] Maintain input tracking while suppressed
+  - [ ] Add toggle for suppression testing
+- [ ] Set up artificial movement system
+  - [ ] Create movement queue
+  - [ ] Implement Enigo integration
+  - [ ] Add basic movement generation
+  - [ ] Test movement accuracy
+- [ ] Add movement smoothing
+  - [ ] Create smoothing algorithm
+  - [ ] Add configurable parameters
+  - [ ] Implement live parameter adjustment
+  - [ ] Test smoothing effectiveness
 
 ### Frontend Improvements
-- [ ] Create settings panel
-  - [ ] Add smoothing parameters
-  - [ ] Include profile management
-  - [ ] Add performance settings
-- [ ] Implement calibration UI
-  - [ ] Add calibration workflow
-  - [ ] Create visualization
-  - [ ] Store calibration data
-- [ ] Add performance metrics display
-  - [ ] Show latency information
-  - [ ] Display event statistics
-  - [ ] Add resource usage info
+- [ ] Add suppression controls
+  - [ ] Create toggle switch
+  - [ ] Add status indicator
+  - [ ] Show suppression state
+- [ ] Movement testing interface
+  - [ ] Add movement visualization
+  - [ ] Show original vs processed movement
+  - [ ] Include performance metrics
 
 ## Core Systems
 

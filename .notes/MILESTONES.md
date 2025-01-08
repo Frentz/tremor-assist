@@ -24,8 +24,11 @@
   - [x] Console and UI synchronization
 
 ### In Progress
-- [ ] Mouse movement smoothing algorithm
-- [ ] Smoothing parameter adjustment
+- [ ] Mouse input control system
+  1. Input suppression while maintaining tracking
+  2. Artificial movement generation
+  3. Movement smoothing implementation
+  4. Parameter adjustment interface
 - [ ] User profiles
 - [ ] Settings persistence
 - [ ] Performance optimization
