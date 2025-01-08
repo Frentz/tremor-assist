@@ -25,10 +25,19 @@
 
 ### In Progress
 - [ ] Mouse input control system
-  1. Input suppression while maintaining tracking
+  1. Input suppression with safety controls
+     - Mouse movement suppression
+     - Emergency keyboard shortcuts
+     - Global hotkey registration
+     - Visual safety indicators
   2. Artificial movement generation
   3. Movement smoothing implementation
   4. Parameter adjustment interface
+- [ ] Keyboard shortcut system
+  - Core action shortcuts
+  - Safety control bindings
+  - Shortcut configuration
+  - Platform-specific support
 - [ ] User profiles
 - [ ] Settings persistence
 - [ ] Performance optimization

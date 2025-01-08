@@ -26,22 +26,31 @@
   - [ ] Create Windows input suppression
   - [ ] Maintain input tracking while suppressed
   - [ ] Add toggle for suppression testing
-- [ ] Set up artificial movement system
-  - [ ] Create movement queue
-  - [ ] Implement Enigo integration
-  - [ ] Add basic movement generation
-  - [ ] Test movement accuracy
-- [ ] Add movement smoothing
-  - [ ] Create smoothing algorithm
-  - [ ] Add configurable parameters
-  - [ ] Implement live parameter adjustment
-  - [ ] Test smoothing effectiveness
+  - [ ] Implement safety controls
+    - [ ] Add emergency keyboard shortcut to disable suppression
+    - [ ] Create global hotkey registration
+    - [ ] Add visual indicator for active shortcuts
+    - [ ] Test shortcut reliability
+
+### Keyboard Shortcuts
+- [ ] Implement core shortcuts
+  - [ ] Toggle mouse suppression (e.g., Cmd/Ctrl + Esc)
+  - [ ] Toggle mouse logging (e.g., Cmd/Ctrl + M)
+  - [ ] Toggle keyboard logging (e.g., Cmd/Ctrl + K)
+  - [ ] Clear logs (e.g., Cmd/Ctrl + L)
+  - [ ] Toggle theme (e.g., Cmd/Ctrl + T)
+- [ ] Add shortcut management
+  - [ ] Create shortcut configuration UI
+  - [ ] Add shortcut conflict detection
+  - [ ] Implement platform-specific bindings
+  - [ ] Add shortcut hints in UI
 
 ### Frontend Improvements
 - [ ] Add suppression controls
   - [ ] Create toggle switch
   - [ ] Add status indicator
   - [ ] Show suppression state
+  - [ ] Display active shortcuts
 - [ ] Movement testing interface
   - [ ] Add movement visualization
   - [ ] Show original vs processed movement
