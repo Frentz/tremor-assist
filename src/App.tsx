@@ -10,6 +10,8 @@ import { listen } from '@tauri-apps/api/event'
 export default function App() {
   const [isDark, setIsDark] = useState(false)
   const [isRunning, setIsRunning] = useState(false)
+  const [isSuppressing, setIsSuppressing] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   const formatTime = () => {
     const now = new Date();
@@ -78,6 +80,47 @@ export default function App() {
     };
   }, [isRunning, isMouseLoggingEnabled, isKeyboardLoggingEnabled, addLog]);
 
+  // New mouse suppression controls
+  const handleSuppressionToggle = async () => {
+    try {
+      await invoke('toggle_mouse_suppression', { enabled: !isSuppressing });
+      setIsSuppressing(!isSuppressing);
+      log(`Mouse suppression ${!isSuppressing ? 'enabled' : 'disabled'}`);
+    } catch (error) {
+      log(`Error toggling suppression: ${error}`);
+    }
+  };
+
+  const handleEmergencyStop = async () => {
+    try {
+      await invoke('emergency_stop');
+      setIsSuppressing(false);
+      log('Emergency stop triggered');
+    } catch (error) {
+      log(`Error triggering emergency stop: ${error}`);
+    }
+  };
+
+  const updateMousePosition = async () => {
+    try {
+      const pos = await invoke<{ x: number, y: number }>('get_mouse_position');
+      setMousePosition(pos);
+    } catch (error) {
+      log(`Error getting mouse position: ${error}`);
+    }
+  };
+
+  // Update mouse position periodically when suppression is active
+  useEffect(() => {
+    let interval: number | undefined;
+    if (isSuppressing) {
+      interval = window.setInterval(updateMousePosition, 16); // ~60fps
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isSuppressing]);
+
   const handleMouseLoggingToggle = async () => {
     await invoke('set_mouse_logging', { enabled: !isMouseLoggingEnabled });
     toggleMouseLogging();
@@ -97,6 +140,25 @@ export default function App() {
     log(`Assistance ${!isRunning ? 'started' : 'stopped'}`);
     setIsRunning(!isRunning);
   };
+
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+
+    const setupEmergencyStopListener = async () => {
+      unlisten = await listen('emergency_stop_triggered', () => {
+        setIsSuppressing(false);
+        log('Emergency stop triggered via keyboard shortcut');
+      });
+    };
+
+    setupEmergencyStopListener().catch(error => {
+      log(`Error setting up emergency stop listener: ${error}`);
+    });
+
+    return () => {
+      if (unlisten) unlisten();
+    };
+  }, []);
 
   return (
     <TamaguiProvider config={config}>
@@ -151,6 +213,40 @@ export default function App() {
                 ? 'Mouse movement assistance is active'
                 : 'Click to start mouse movement assistance'}
             </Text>
+
+            {/* Mouse Suppression Controls */}
+            <YStack space="$2" backgroundColor="$backgroundStrong" padding="$4" borderRadius="$4">
+              <XStack justifyContent="space-between" alignItems="center">
+                <Text color="$color" fontWeight="bold">Mouse Suppression</Text>
+                <Button
+                  size="$3"
+                  theme="red"
+                  onPress={handleEmergencyStop}
+                  disabled={!isSuppressing}
+                >
+                  Emergency Stop
+                </Button>
+              </XStack>
+              
+              <XStack space="$2" alignItems="center">
+                <Switch
+                  id="suppression-toggle"
+                  checked={isSuppressing}
+                  onCheckedChange={handleSuppressionToggle}
+                >
+                  <Switch.Thumb />
+                </Switch>
+                <Label htmlFor="suppression-toggle" theme="alt2">
+                  {isSuppressing ? 'Suppression Active' : 'Suppression Disabled'}
+                </Label>
+              </XStack>
+
+              {isSuppressing && (
+                <Text theme="alt2" size="$2">
+                  Mouse Position: X: {mousePosition.x}, Y: {mousePosition.y}
+                </Text>
+              )}
+            </YStack>
 
             <XStack space="$4" justifyContent="center">
               <XStack space="$2" alignItems="center">

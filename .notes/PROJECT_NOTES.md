@@ -1,307 +1,273 @@
-# Tremor Assist - Project Documentation
+# Project Notes
 
-## Recent Changes
-### Git History
-- 9355c46: fix: keyboard input handling on macOS - Switched to fufesou's rdev for better compatibility, updated docs, enhanced error handling
-- e2d1c1e: feat: implement real hardware input tracking with rdev
-- f725a02: docs: update changelog for v0.3.0
-- 6d6f0c0: feat: add input logging interface with type toggles
-- 951114d: docs: add development, contributing, and security documentation
+## Overview
+Tremor Assist is a cross-platform desktop application designed to help users with tremors by providing adaptive mouse movement assistance. The application is built using Tauri 2.2.0, combining a React frontend with a Rust backend for optimal performance.
 
-## Project Overview
-Tremor Assist is an accessibility-focused desktop application designed to help users with tremors use computers more effectively. The application provides real-time mouse movement assistance with adaptive smoothing algorithms.
+## Current State
+- Phase 1 (Foundation) is complete
+- Phase 2 (Core Functionality) is in progress
+- Input logging system is fully implemented
+- Mouse/keyboard event capture is working
+- Theme system is implemented
+- UI components are responsive
 
-## Technology Stack
+### Recent Changes
+1. Added detailed technical approach for mouse movement suppression using platform-specific hooks
+2. Added keyboard shortcuts as critical safety feature for mouse suppression
+3. Updated next steps to focus on mouse input suppression and artificial movement
+4. Updated documentation with completed logging features
+5. Improved logging system with clear button and console output
+
+## Architecture
+
 ### Frontend
-- React 19.0.0 with TypeScript 5.7.2
-- Tamagui 1.121.6 for UI components and theming
-- Zustand 5.0.2 for state management
-- Vite 6.0.7 for build tooling
-- Heroicons 2.2.0 for icons
+- React with TypeScript
+- Tamagui UI framework (v1.121.6)
+- Zustand for state management
+- Heroicons for icons
+- Theme support (dark/light)
 
 ### Backend
-- Rust (2021 edition)
-- Tauri 2.2.0 for desktop integration
-- Custom fork of rdev for input capture
-- Enigo 0.3.0 for mouse control
-- Serde for serialization
+- Rust using Tauri 2.2.0
+- rdev for input capture (using fufesou's fork for better macOS support)
+- Enigo 0.3.0 for synthetic events
+- Thread-safe event handling
+- Performance optimized (< 5ms latency target)
 
-### Development Tools
-- Yarn for package management
-- TypeScript in strict mode
-- Vite for development server
-- Tauri CLI 2.2.2
+### Core Systems
+1. Input Capture & Processing
+   - Platform-specific optimizations
+   - Event filtering and throttling
+   - Thread-safe event emission
+   - Permission management
+   - Error recovery
 
-## Core Architecture
-### Frontend (`src/`)
-#### Components
-- React components for UI
-- Tamagui theme integration
-- Custom hooks for input tracking
-- Dark/light theme support
-
-#### State Management
-- Zustand stores for application state
-- Tamagui theme context
-- Input log state
-- Settings persistence
-
-### Backend (`src-tauri/`)
-#### Core Systems
-- Input capture using rdev
-- Event processing and filtering
-- Mouse movement smoothing
-- IPC with frontend
-
-#### Performance Optimizations
-- Event throttling at 60fps
-- Thread-safe event emission
-- Memory-safe implementation
-- Error recovery system
-
-## Security Implementation
-### Core Principles
-1. Local-only Processing
-   - No cloud connectivity
-   - No data collection
-   - Memory-safe implementation
-   - Protected configuration
-
-2. System Integration
-   - Minimal permissions
-   - Sandboxed execution
-   - Safe thread management
-   - Protected system calls
-
-3. Input Security
-   - No keylogging
-   - Secure event handling
-   - Protected accessibility permissions
-   - Safe keyboard processing
-
-### Platform-Specific Security
-#### macOS
-- Accessibility permissions for input
-- Protected modifier key access
-- Secure event monitoring
-- Custom rdev fork for stability
-
-#### Windows
-- Input device access permissions
-- Protected input monitoring
-- Secure event capture
-- Safe thread management
-
-## Development Status
-### Current Phase
-Currently in Phase 2: Core Functionality. Phase 1 (Foundation) has been completed with the following achievements:
-- ✅ Project setup with Tauri 2.2.0
-- ✅ Basic UI implementation with Tamagui
-- ✅ Theme system implementation
-- ✅ Input logging system
-- ✅ Hardware input capture
-- ✅ Cross-platform keyboard support
-- ✅ Event visualization
-
-### Next Priorities
-1. Mouse movement smoothing algorithm implementation
-2. Smoothing parameter adjustment UI
-3. User profiles system
-4. Settings persistence
-5. Performance optimization
-
-### Active Tasks
-#### Mouse Control System
-- Implement CGEvent tap for macOS
-- Create Windows input capture system
-- Build input event buffer
-- Implement input suppression
-
-#### Frontend
-- Create settings interface using Tamagui Form components
-- Add movement visualization with Tamagui animations
-- Build profile management UI
-- Implement performance monitoring view
-
-## Implementation Details
-### Input Capture System
-- Using custom fork of rdev for improved macOS compatibility
-- Event throttling at ~60fps for performance
-- Thread-safe event emission to frontend
-- Error recovery system in place
-
-### UI Implementation
-#### Component Structure
-- TamaguiProvider for theme and styling context
-- Theme component for dark/light mode switching
-- YStack and XStack for layout management
-- Custom InputLog component for event visualization
-
-#### Core Components
-1. App.tsx
-   - Main application container
-   - Theme switching logic
-   - Input tracking controls
-   - Event listener setup
-   - Logging toggles
-
-2. InputLog.tsx
-   - Event visualization component
-   - Scrollable log display
-   - Color-coded event types
-   - Timestamp formatting
+2. Event Logging System
+   - Unified timestamp format [HH:MM:SS.mmm]
+   - Component interaction logging
+   - Resizable log visualization
+   - Manual log clearing
    - Event type filtering
+   - Console and UI synchronization
 
-3. State Management
-   - Zustand store for input logs
-   - Maximum 1000 log entries
-   - Separate mouse/keyboard logging flags
-   - Automatic log clearing on toggle
+3. Movement Processing (Planned)
+   - Raw movement data analysis
+   - Profile-based tremor filtering
+   - Movement pattern recognition
+   - Adaptive smoothing algorithms
+   - Performance monitoring
 
-#### Theme System
-- Dark/light mode support using Tamagui themes
-- System preference detection with useColorScheme
-- Theme-aware components with Tamagui tokens
-- Custom color tokens from @tamagui/themes
-- Inter font integration for consistent typography
-- Responsive design using Tamagui Stack
-- Type-safe theme configuration
-- Shorthand style props support
+4. Output Generation (Planned)
+   - Synthetic mouse events via Enigo
+   - Clean movement output
+   - Direct OS integration
+   - Thread-safe movement queue
 
-#### Typography
-- Inter font family
-- Consistent font scaling
-- Type-safe font configuration
-- Responsive text components
+## Development Environment
 
-#### Layout System
-- Stack-based layout using YStack/XStack
-- Responsive spacing system
-- Theme-aware borders and shadows
-- Flexible container components
+### Prerequisites
+- Node.js >= 18.0.0
+- Yarn >= 1.22.0
+- Rust >= 1.75.0
+- Tauri CLI >= 2.2.1
 
-### State Management
-#### Input Log Store
-- Zustand-based state management
-- Type-safe interfaces
-- Event filtering logic
-- Performance optimizations
-- Clear log functionality
+### Project Structure
+```
+tremor-assist/
+├── src/                 # Frontend React code
+│   ├── components/      # React components
+│   │   └── InputLog/   # Input visualization
+│   ├── store/          # Zustand state management
+│   │   └── inputLogStore/ # Input logging state
+│   └── theme/          # Tamagui theme configuration
+├── src-tauri/          # Rust backend code
+│   ├── src/            # Main Rust source code
+│   └── plugins/        # Tauri plugins
+└── .notes/             # Project documentation
+```
 
-#### Theme State
-- Theme state handled by Tamagui
-- System preference integration
-- Persistent theme selection
-- Theme-aware styling
+### Development Workflow
+1. Start development server: `yarn tauri dev`
+2. Make changes to React code in `src/`
+3. Make changes to Rust code in `src-tauri/`
+4. Test changes locally
+5. Update documentation in `.notes/`
+6. Create pull request
 
-#### Event Handling
-- Event type filtering
-- Throttled updates
-- Memory-efficient storage
-- Type-safe event processing
+## Security Measures
 
-## Known Issues and Inconsistencies
-1. Keyboard input handling on macOS required switch to custom rdev fork
-2. Event throttling needed for performance optimization
-3. Documentation needs updating for recent macOS compatibility changes
-4. Package.json lists React 19.0.0 which isn't officially released yet
-5. Some Tauri features not explicitly specified in Cargo.toml
+### Input Handling
+- Local-only processing
+- No keylogging or data storage
+- Secure event handling
+- Protected accessibility permissions
+- Safe keyboard event processing
 
-## Future Roadmap
-### Phase 3: Advanced Features
-- Adaptive smoothing
-- Pattern recognition
-- User calibration
-- Performance metrics
-- Analytics system
+### Data Protection
+- No cloud connectivity
+- No data collection
+- Local-only storage
+- Memory-safe implementation
+- Secure state management
 
-### Phase 4: Polish
-- Onboarding experience
-- Help documentation
-- Keyboard shortcuts
-- System tray integration
+### System Integration
+- Minimal system permissions
+- Sandboxed execution
+- Proper resource cleanup
+- Safe thread management
+- Protected system calls
 
-### Phase 5: Testing & Release
-- Unit test suite
-- Integration tests
-- Performance testing
-- User testing
-- Security audit
+## Platform-Specific Implementation
+
+### macOS
+- Uses fufesou's rdev fork for keyboard stability
+- CGEvent tap for mouse events (planned)
+- Requires accessibility permissions
+- Handles modifier keys properly
+- Consistent event logging
+
+### Windows
+- Standard rdev implementation
+- SetWindowsHookEx for mouse events (planned)
+- Native input capture support
+- Full keyboard compatibility
+- Platform-specific event handling
+
+## Contributing Guidelines
+
+### Code Standards
+- TypeScript strict mode
+- Rust safety practices
+- Thread-safe implementation
+- Proper error handling
+- Consistent logging format
+
+### Git Commit Format
+```
+type(scope): description
+
+Types:
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation
+- style: Formatting
+- refactor: Code restructuring
+- test: Adding tests
+- chore: Maintenance
+```
+
+### Pull Request Process
+1. Update CHANGELOG.md
+2. Ensure tests pass
+3. Update documentation
+4. Request review
+5. Address feedback
+
+## Next Steps
+
+### Immediate Tasks
+1. Implement mouse input suppression
+   - Platform-specific event hooks
+   - Position tracking system
+   - Safety controls and shortcuts
+   - Emergency disable functionality
+
+2. Develop artificial movement generation
+   - Movement queue system
+   - Delta-based calculations
+   - Smooth transitions
+   - Performance optimization
+
+3. Create keyboard shortcut system
+   - Core action bindings
+   - Safety controls
+   - Configuration interface
+   - Platform-specific bindings
+
+4. Build settings interface
+   - Profile management
+   - Calibration controls
+   - Performance monitoring
+   - Configuration persistence
+
+5. Implement movement smoothing
+   - Basic algorithm implementation
+   - Parameter adjustment UI
+   - Performance optimization
+   - Pattern recognition
+
+## Technical Requirements
+
+### Performance
+- Target latency: < 5ms
+- Event throttling at 60fps
+- Efficient log management
+   - Thread-safe operations
+- Memory optimization
+
+### Security
+- OS-level permission management
+- Local-only processing
+- Protected input handling
+- Safe event logging
+- Secure state persistence
+
+### Platform Support
+- macOS: CGEvent tap for mouse events
+- Windows: SetWindowsHookEx for mouse events
+- Cross-platform: Position tracking and delta calculation
+- Consistent keyboard support
+- Unified event handling
+
+## Known Issues & Limitations
+1. Permission system complexity
+2. Thread safety considerations
+3. Window focus edge cases
+4. Smoothing algorithm trade-offs
+5. Event throttling requirements
+6. Platform-specific quirks
+
+## Future Enhancements
+1. Machine learning integration
+   - Pattern recognition
+   - Adaptive smoothing
+   - User profiling
+
+2. Cloud features
+   - Profile sync
+   - Settings backup
+   - Usage analytics
+
+3. Advanced functionality
+   - Plugin system
+   - Custom algorithms
+   - Extended configuration
+
+4. Community features
+   - Profile sharing
+   - Custom presets
+   - User feedback
+
+5. Mobile support
+   - Touch input
+   - Mobile UI
+   - Cross-device sync
 
 ## Development Guidelines
-1. Follow Rust safety practices
-2. Implement proper error handling
-3. Use type-safe interfaces
-4. Validate all input
-5. Handle permissions properly
-6. Test security features
-7. Maintain theme consistency
-8. Keep performance under 5ms latency
-9. Document all changes
-10. Follow semantic versioning 
+1. Follow TypeScript strict mode
+2. Maintain thread safety
+3. Implement proper error handling
+4. Use consistent logging practices
+5. Add comprehensive testing
+6. Monitor performance metrics
+7. Document public APIs
+8. Follow accessibility guidelines
 
-## Build Configuration
-### Vite Setup
-- React plugin for JSX compilation
-- Tamagui plugin integration
-- Component extraction optimization
-- Platform-specific build targets
-- Development server configuration
-- HMR with WebSocket support
-- Source map generation for debugging
-- Environment variable handling
-
-### Build Targets
-- Windows: Chrome 105+
-- macOS: Safari 13+
-- ES2021 support
-- Debug build optimizations
-- Production minification
-- Source map generation
-
-### Development Server
-- Fixed port (1420)
-- Strict port enforcement
-- HMR on port 1421
-- Ignored src-tauri directory
-- Environment variable prefixing
-- Debug mode support
-
-### Optimization
-- Tamagui component extraction
-- Conditional minification
-- Platform-specific targets
-- Source map generation
-- Development mode features 
-
-### TypeScript Configuration
-#### Main Configuration
-- Target: ES2020
-- Strict type checking
-- React JSX support
-- Module bundler resolution
-- JSON module support
-- Isolated modules
-- No emit (Vite handles compilation)
-
-#### Linting Rules
-- Strict mode enabled
-- No unused locals
-- No unused parameters
-- No fallthrough cases
-- Class fields definition
-
-#### Node Configuration
-- Composite project setup
-- ESNext module system
-- Bundler module resolution
-- Synthetic default imports
-- Vite config inclusion
-
-### Type Safety
-- Strict null checks
-- Strict function types
-- Strict property initialization
-- No implicit any
-- No implicit this
-- Strict bind call apply 
+## Resources
+- [Tauri 2.2.0 Documentation](https://tauri.app/v2/docs/)
+- [Enigo 0.3.0 API Reference](https://docs.rs/enigo/0.3.0/enigo/)
+- [Zustand State Management](https://zustand-demo.pmnd.rs/)
+- [Tamagui 1.121.6](https://tamagui.dev/docs/intro/introduction/)
+- [rdev Repository](https://github.com/fufesou/rdev)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Rust Documentation](https://doc.rust-lang.org/book/)

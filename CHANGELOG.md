@@ -13,6 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Clear button for input logs
 - Console logging with timestamps
 - Component interaction logging
+- Emergency stop functionality
+  - Escape key shortcut for immediate suppression disable
+  - Emergency stop button in UI
+  - Debounce mechanism to prevent multiple triggers
+  - Thread-safe state management
+  - Frontend state synchronization
+- Mouse position tracking system
+  - Thread-safe position management
+  - Original position storage
+  - Real-time position updates
+- Improved error handling and logging
+  - Comprehensive error messages
+  - Thread-safe logging system
+  - Event debouncing
 
 ### Fixed
 - Keyboard input handling on macOS using fufesou's rdev fork
@@ -20,12 +34,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Input log clearing behavior
 - Mouse event filtering when logging is disabled
 - Console logging format consistency
+- UI responsiveness during emergency stop
+- Multiple emergency stop triggers
+- State synchronization between frontend and backend
+- Thread safety in mouse control system
 
 ### Changed
 - Improved input tracking status messages
 - Enhanced console logging with timestamps
 - More concise log messages
 - Better correlation between UI and console events
+- Improved documentation
+  - Added comprehensive method documentation
+  - Updated architecture documentation
+  - Enhanced code comments
+- Enhanced thread safety
+  - Added proper Arc wrapping
+  - Implemented LazyLock for static initialization
+  - Improved state management
 
 ## [0.4.1] - 2024-01-07
 
