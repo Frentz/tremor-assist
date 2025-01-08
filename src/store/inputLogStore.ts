@@ -20,8 +20,8 @@ export const useInputLogStore = create<InputLogState>((set) => ({
   addLog: (type, details) => set((state) => {
     // Only add logs if the corresponding logging is enabled
     if (
-      (type === 'keyboard' && !state.isKeyboardLoggingEnabled) ||
-      ((type === 'mouse_move' || type === 'mouse_click') && !state.isMouseLoggingEnabled)
+      ((type === 'keyboard_press' || type === 'keyboard_release') && !state.isKeyboardLoggingEnabled) ||
+      ((type === 'mouse_move' || type === 'mouse_click' || type === 'mouse_release') && !state.isMouseLoggingEnabled)
     ) {
       return state
     }

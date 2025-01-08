@@ -8,26 +8,28 @@ Tremor Assist is built as a cross-platform desktop application using Tauri, comb
 ### Frontend (`src/`)
 ```
 src/
-├── components/
-├── store/
-├── hooks/
-└── App.tsx                   # Main application component
+├── components/         # React components
+├── store/             # State management
+├── hooks/             # Custom React hooks
+└── App.tsx            # Main application component
 ```
 
 ### Backend (`src-tauri/src/`)
 ```
 src-tauri/src/
-├── lib.rs          # Core functionality
-└── main.rs         # Application entry point
+├── lib.rs            # Core functionality
+└── main.rs           # Application entry point
 ```
 
-## Core Systems (Updated)
+## Core Systems
 
-### 1. Input Capture & Suppression
-- Uses macOS CGEvent tap for direct input capture
-- Complete suppression of original mouse movement
+### 1. Input Capture & Processing
+- Uses custom fork of rdev for stable input capture
+- Platform-specific optimizations for macOS and Windows
+- Complete keyboard event support across platforms
 - Raw event buffering with minimal latency
 - Requires accessibility permissions
+- Event filtering and type-based processing
 
 ### 2. Movement Processing
 - Raw movement data analysis
@@ -40,30 +42,43 @@ src-tauri/src/
 - Clean movement output
 - Direct OS integration
 
-## Data Flow (Updated)
-1. Mouse movement intercepted by CGEvent tap
-2. Original input suppressed
-3. Movement data processed through filters
+## Data Flow
+1. Input events captured by rdev
+2. Events processed and filtered by type
+3. Movement data analyzed
 4. Clean movement calculated
-5. Synthetic movement generated via Enigo
-6. UI updated with movement visualization
+5. Synthetic movement generated
+6. UI updated with event visualization
 
 ## Performance Considerations
 - Target latency: < 5ms
 - Event loop optimization
 - Memory usage monitoring
 - CPU usage optimization
-- Thread safety in mouse control
+- Thread safety in event handling
 
 ## Security Model
 - OS-level permission management
 - Local-only processing
 - Secure state persistence
-- Protected mouse control access
+- Protected input handling
+
+## Platform-Specific Architecture
+
+### macOS
+- Uses fufesou's rdev fork for keyboard stability
+- Enhanced event handling for system integration
+- Proper modifier key support
+- Accessibility permission management
+
+### Windows
+- Standard rdev implementation
+- Native input capture system
+- Full keyboard compatibility
 
 ## Known Technical Limitations
 1. Permission system complexity
-2. Thread safety on macOS
+2. Thread safety considerations
 3. Window focus edge cases
 4. Smoothing algorithm trade-offs
 

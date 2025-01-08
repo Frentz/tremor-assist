@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2024-01-07
+
+### Fixed
+- Fixed keyboard input causing app to close on macOS
+- Improved keyboard event handling stability
+- Updated rdev dependency to use fixed fork
+
+### Changed
+- Switched to fufesou's rdev fork for better macOS compatibility
+- Improved input event handling architecture
+- Enhanced error handling for input events
+
+## [0.4.0] - 2024-01-07
+
+### Added
+- Real hardware input tracking using rdev
+- Mouse movement and click event capture
+- Event throttling for optimal performance (~60fps)
+- Start/stop functionality for input tracking
+- Clean event cleanup on tracking stop
+
+### Dependencies Added
+- rdev: ^0.5.3
+
 ## [0.3.0] - 2024-01-07
 
 ### Added

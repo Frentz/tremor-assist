@@ -11,14 +11,17 @@ Start here to understand the project:
 5. 💻 [Development Guide](./.notes/DEVELOPMENT.md)
 6. 👥 [Contributing Guidelines](./.notes/CONTRIBUTING.md)
 7. 🔒 [Security Policy](./.notes/SECURITY.md)
-8. 📝 [Version History](./.notes/CHANGELOG.md)
+8. 📝 [Version History](./CHANGELOG.md)
 
 ## Key Features
-- Real-time mouse movement tracking with visual feedback
-- Adaptive smoothing algorithm
+- Real-time hardware input tracking with visual feedback
+- Stable keyboard input handling across platforms
+- High-performance event processing (~60fps)
+- Toggleable mouse and keyboard logging
 - Cross-platform support (Windows, macOS)
 - Privacy-focused: all processing happens locally
-- Test patterns for calibration
+- Dark/light theme support
+- Clean, modern UI with Tamagui
 
 ## Quick Links
 - **Getting Started**: See [Development Guide](./.notes/DEVELOPMENT.md) for setup and guidelines
@@ -29,9 +32,13 @@ Start here to understand the project:
 ## Technical Overview
 - Frontend: React 19 + TypeScript + Tamagui 1.121.6
 - Backend: Rust + Tauri 2.2.0
-- Mouse Control: Enigo 0.3.0 + Custom Smoothing Algorithm
-- State Management: Zustand
+- Input Tracking: Custom rdev fork for improved stability
+- State Management: Zustand 5.0.2
 - Build System: Vite + Tauri CLI
+
+## Platform Support
+- **macOS**: Full support with stable keyboard input
+- **Windows**: Native input handling support
 
 ## License
 MIT License - See [LICENSE](./LICENSE) file for details

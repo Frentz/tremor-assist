@@ -1,70 +1,76 @@
 # Development Guide
 
 ## Prerequisites
-- Node.js >= 18
+- Node.js >= 18.0.0
 - Yarn >= 1.22.0
 - Rust >= 1.75.0
 - Tauri CLI >= 2.2.1
 
-## Setup Instructions
-
-1. **Clone the Repository**
-```bash
-git clone https://github.com/Frentz/tremor-assist.git
-cd tremor-assist
-```
-
-2. **Install Dependencies**
-```bash
-yarn install
-```
-
-3. **Development**
-```bash
-yarn tauri dev
-```
-
-4. **Building**
-```bash
-yarn tauri build
-```
-
 ## Project Structure
-- `src/` - Frontend React code
-- `src-tauri/` - Rust backend code
-- `.notes/` - Project documentation
-- `public/` - Static assets
+```
+tremor-assist/
+├── src/                 # Frontend React code
+│   ├── components/      # React components
+│   ├── store/          # Zustand state management
+│   └── theme/          # Tamagui theme configuration
+├── src-tauri/          # Rust backend code
+│   ├── src/            # Main Rust source code
+│   └── plugins/        # Tauri plugins
+└── .notes/             # Project documentation
+```
 
-## Development Guidelines
+## Core Systems
 
-### UI Development
-- Use Tamagui components for consistent theming
-- Support both light and dark themes
-- Maintain < 5ms latency for mouse operations
-- Follow accessibility guidelines
+### Input Tracking
+- Uses custom fork of `rdev` for improved macOS compatibility
+- Events throttled to ~60fps for performance
+- Supports mouse movement and click events
+- Full keyboard event support on all platforms
+- Clean start/stop functionality
+- Event filtering based on type (mouse/keyboard)
+
+### UI Components
+- Built with Tamagui for consistent theming
+- Supports dark/light mode
+- Input log visualization with event type coloring
+- Theme-aware styling
 
 ### State Management
-- Use Zustand for global state
-- Implement type-safe state updates
-- Follow immutability patterns
+- Zustand for global state
+- Input log store with history management
+- Theme state management
+- Input type toggles (mouse/keyboard)
 
-### Backend Development
-- Follow Rust safety guidelines
-- Implement proper error handling
-- Maintain thread safety
-- Document public APIs
+## Development Workflow
+1. Start development server: `yarn tauri dev`
+2. Make changes to React code in `src/`
+3. Make changes to Rust code in `src-tauri/`
+4. Test changes locally
+5. Update documentation in `.notes/`
+6. Create pull request
 
-### Testing
-- Write unit tests for components
-- Add integration tests for critical paths
-- Test both themes
-- Verify accessibility
+## Platform-Specific Notes
 
-### Performance
-- Monitor latency
-- Profile memory usage
-- Test on both platforms
-- Optimize render cycles
+### macOS
+- Uses fufesou's rdev fork for keyboard stability
+- Requires accessibility permissions
+- Handles modifier keys properly
+- Stable keyboard event capture
 
-## Troubleshooting
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for common issues and solutions. 
+### Windows
+- Uses standard rdev implementation
+- Native input capture support
+- Full keyboard compatibility
+
+## Performance Guidelines
+- Keep input processing under 5ms
+- Throttle high-frequency events
+- Use async/await for I/O operations
+- Profile performance-critical code
+
+## Testing
+- Test UI components in both themes
+- Verify input tracking accuracy
+- Test keyboard input extensively
+- Check memory usage with long sessions
+- Test on both Windows and macOS 

@@ -1,16 +1,37 @@
 # Development Tasks
 
+## Core Systems
+
+### Mouse Control System
+- [x] Input log visualization UI
+- [x] Real input capture implementation
+- [x] Keyboard input handling on macOS
+- [ ] Mouse movement smoothing algorithm
+- [ ] Smoothing parameter adjustment UI
+- [ ] Movement pattern analysis
+- [ ] Adaptive smoothing based on patterns
+
+### Frontend
+- [x] Basic application layout
+- [x] Theme system setup
+- [x] Input visualization components
+- [x] Input event filtering and display
+- [ ] Settings panel
+- [ ] Calibration UI
+- [ ] Performance metrics display
+
 ## Mouse Control System
 ### Input Capture
 - [x] Create input log visualization UI
 - [x] Implement input type toggles (mouse/keyboard)
 - [x] Add input event filtering
+- [x] Fix keyboard input handling on macOS
 - [ ] Implement CGEvent tap for macOS
 - [ ] Create Windows input capture system
 - [ ] Build input event buffer
-- [ ] Add permission request handling
+- [x] Add permission request handling
 - [ ] Implement input suppression
-- [ ] Add error recovery system
+- [x] Add error recovery system
 
 ### Movement Processing
 - [ ] Create movement data structure

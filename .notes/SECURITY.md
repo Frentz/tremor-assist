@@ -1,82 +1,82 @@
 # Security Policy
 
-## Supported Versions
+## Overview
+Tremor Assist takes security seriously, especially given our access to user input devices. We implement multiple layers of security to protect user privacy and system integrity.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.2.x   | :white_check_mark: |
-| 0.1.x   | :x:                |
+## Core Security Principles
 
-## Security Considerations
+### Input Handling Security
+- All input processing happens locally
+- No keylogging or input data storage
+- Secure event handling through rdev
+- Proper handling of system shortcuts
+- Safe keyboard event processing
+- Protected accessibility permissions
 
-### Mouse Input Handling
-- All mouse input is processed locally
-- No data is sent to external servers
-- Input validation on all mouse events
-- Proper error handling for input failures
-
-### System Permissions
-- Minimal required permissions
-- Clear permission request dialogs
-- Secure permission storage
-- Regular permission audits
-
-### Data Storage
-- Local storage only
-- No cloud synchronization
-- Encrypted user preferences
+### Data Security
+- No cloud connectivity
+- No data collection
+- Local-only storage
+- Memory-safe implementation
 - Secure state management
+- Protected configuration files
 
-### Application Security
-- Input sanitization
-- Memory safety (Rust)
-- Thread safety
-- Error boundaries
-- Crash recovery
+### System Integration
+- Minimal system permissions
+- Sandboxed execution
+- Proper resource cleanup
+- Safe thread management
+- Protected system calls
+- Secure window management
 
-## Reporting a Vulnerability
+## Permission Requirements
 
-1. **DO NOT** create a public issue
-2. Email security@tremor-assist.com
-3. Include detailed description
-4. Provide steps to reproduce
-5. Wait for acknowledgment (24-48 hours)
+### macOS
+- Accessibility permissions for input capture
+- Controlled keyboard event handling
+- Protected modifier key access
+- Secure event monitoring
 
-## Security Best Practices
+### Windows
+- Input device access permissions
+- Protected input monitoring
+- Secure event capture
 
-### Development
-- Keep dependencies updated
-- Follow Rust safety guidelines
+## Security Measures
+1. Input validation
+2. Memory safety
+3. Thread safety
+4. Error boundaries
+5. Crash recovery
+6. Secure defaults
+
+## Development Guidelines
+- Follow Rust safety practices
 - Implement proper error handling
 - Use type-safe interfaces
+- Validate all input
+- Handle permissions properly
+- Test security features
+
+## Reporting Security Issues
+1. **Do not** open public issues for security vulnerabilities
+2. Email security concerns to [security@tremor-assist.com]
+3. Include detailed reproduction steps
+4. Allow time for investigation and response
+5. Follow responsible disclosure
+
+## Security Updates
 - Regular security audits
-
-### Building
-- Sign all releases
-- Verify dependencies
-- Check for vulnerabilities
-- Test on all platforms
-
-### Distribution
-- Secure download channels
-- Verify package signatures
-- Clear update process
+- Prompt vulnerability fixes
+- Clear security documentation
 - Version verification
+- Update notifications
+- Changelog tracking
 
-## Incident Response
-
-1. Immediate assessment
-2. User notification if needed
-3. Fix implementation
-4. Security patch release
-5. Post-mortem analysis
-
-## Updates and Patches
-- Regular security updates
-- Automated vulnerability scanning
-- Dependency updates
-- Quick patch releases
-
-## Contact
-For security concerns, email:
-security@tremor-assist.com 
+## Best Practices
+1. Keep the application updated
+2. Review permissions regularly
+3. Monitor system resources
+4. Report suspicious behavior
+5. Follow security guidelines
+6. Maintain secure configuration 
