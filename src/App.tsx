@@ -160,6 +160,16 @@ export default function App() {
     };
   }, []);
 
+  const handleMouseLockToggle = async () => {
+    try {
+      await invoke('toggle_mouse_lock', { enable: !isSuppressing });
+      setIsSuppressing(!isSuppressing);
+      log(`Mouse suppression ${!isSuppressing ? 'enabled' : 'disabled'}`);
+    } catch (error) {
+      log(`Error toggling mouse suppression: ${error}`);
+    }
+  };
+
   return (
     <TamaguiProvider config={config}>
       <Theme name={isDark ? 'dark' : 'light'}>
@@ -230,13 +240,13 @@ export default function App() {
               
               <XStack space="$2" alignItems="center">
                 <Switch
-                  id="suppression-toggle"
+                  id="mouse-lock-toggle"
                   checked={isSuppressing}
-                  onCheckedChange={handleSuppressionToggle}
+                  onCheckedChange={handleMouseLockToggle}
                 >
                   <Switch.Thumb />
                 </Switch>
-                <Label htmlFor="suppression-toggle" theme="alt2">
+                <Label htmlFor="mouse-lock-toggle" theme="alt2">
                   {isSuppressing ? 'Suppression Active' : 'Suppression Disabled'}
                 </Label>
               </XStack>

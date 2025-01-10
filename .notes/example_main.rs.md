@@ -3,109 +3,106 @@
     windows_subsystem = "windows"
 )]
 
-use enigo::{Enigo, MouseControllable};
-use tauri::{command, AppHandle, Manager, State, Window};
+use core_graphics::event::{CGEvent, CGEventType, CGEventMask, CGEventTap, CGEventTapLocation};
+use core_graphics::geometry::{CGPoint};
+use lazy_static::lazy_static;
+use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
-use std::sync::{Mutex};
-use std::time::Duration;
+use tauri::{AppHandle, Manager, State, Window};
 
-
-// Structure to hold the last mouse position
-struct MouseState {
-    last_x: i32,
-    last_y: i32,
+lazy_static! {
+    static ref MOUSE_SUPPRESSED: Mutex<bool> = Mutex::new(false);
 }
 
-// Struct to send to frontend
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 struct MousePos {
-    x: i32,
-    y: i32,
+    x: f64,
+    y: f64,
 }
 
-// Data struct to hold the state that will be passed between threads
-struct AppState {
-    mouse_state: Mutex<MouseState>,
-    suppress_input: Mutex<bool>,
-}
 
-// Create a function to send a message to the client.
-fn send_mouse_pos(window: &Window, pos: MousePos) -> tauri::Result<()> {
-    window.emit("mouse_update", pos)
-}
+fn create_event_tap(app_handle: AppHandle) -> Result<(), core_graphics::error::Error> {
+    let mask = CGEventMask::from_type(CGEventType::MouseMoved)
+        | CGEventMask::from_type(CGEventType::LeftMouseDown)
+        | CGEventMask::from_type(CGEventType::LeftMouseUp)
+         | CGEventMask::from_type(CGEventType::RightMouseDown)
+        | CGEventMask::from_type(CGEventType::RightMouseUp)
+        | CGEventMask::from_type(CGEventType::OtherMouseDown)
+        | CGEventMask::from_type(CGEventType::OtherMouseUp)
+        | CGEventMask::from_type(CGEventType::MouseDragged);
 
-#[command]
-fn get_mouse_pos(state: State<'_, AppState>, window: Window) -> Result<(), String> {
-    let mouse_state = state.mouse_state.lock().unwrap();
-    let pos = MousePos {
-        x: mouse_state.last_x,
-        y: mouse_state.last_y,
+    let event_callback = move | _tap: CGEventTap, event_type: CGEventType, event: CGEvent | -> Option<CGEvent> {
+
+            let should_suppress = *MOUSE_SUPPRESSED.lock();
+
+
+             match event_type {
+                CGEventType::MouseMoved |
+                CGEventType::LeftMouseDown|
+                CGEventType::LeftMouseUp|
+                CGEventType::RightMouseDown|
+                CGEventType::RightMouseUp |
+                CGEventType::OtherMouseDown|
+                CGEventType::OtherMouseUp|
+                CGEventType::MouseDragged => {
+                    if should_suppress {
+                        return Some(event); // return event unchanged to prevent the app from receiving the input
+
+                        // Get the mouse location, so we can still use this to send the position to the frontend
+                       // let point: CGPoint = event.location();
+                        // let mouse_pos = MousePos{x: point.x , y: point.y};
+                       // app_handle.emit_all("mouse-position", mouse_pos).expect("failed to emit event");
+
+                       //  return None;
+                    }
+                    // If mouse is not suppressed we send the event unchanged, which allows events to go to the frontend.
+                     Some(event)
+
+                }
+                 _=>  Some(event),
+
+             }
+
+
     };
-    send_mouse_pos(&window, pos).map_err(|e| e.to_string())
-}
 
-#[command]
-fn toggle_suppress(state: State<'_, AppState>, suppress: bool) -> Result<(), String> {
-    let mut suppress_input = state.suppress_input.lock().unwrap();
-    *suppress_input = suppress;
-    println!("Suppress Input: {:?}", suppress);
+
+
+    let tap = CGEventTap::new(
+        CGEventTapLocation::HID,
+        CGEventTapPlacement::TailAppendEventTap,
+        CGEventTapOption::Default,
+        mask,
+        event_callback,
+    )?;
+    tap.enable()?;
+
     Ok(())
 }
 
 
+#[tauri::command]
+fn toggle_mouse_suppression(app_handle: AppHandle, is_suppressed: bool) {
+        let mut mouse_suppressed = MOUSE_SUPPRESSED.lock();
+        *mouse_suppressed = is_suppressed;
+     //   println!("Mouse Suppression:{}", is_suppressed);
+        if is_suppressed {
+            if let Err(e) = create_event_tap(app_handle.clone()) {
+                println!("error creating event tap: {:?}", e)
+            }
+        }
+}
+
+
 fn main() {
-    tauri::Builder::default()
-        .manage(AppState {
-            mouse_state: Mutex::new(MouseState { last_x: 0, last_y: 0 }),
-            suppress_input: Mutex::new(false),
-        })
-        .setup(|app| {
-            let app_handle = app.handle();
-            std::thread::spawn(move || {
-                let mut enigo = Enigo::new();
-                loop {
-                    let suppress = app_handle
-                        .state::<AppState>()
-                        .suppress_input
-                        .lock()
-                        .unwrap()
-                        .clone();
-                    if suppress {
-                        let mouse_state_data = app_handle
-                            .state::<AppState>()
-                            .mouse_state
-                            .lock()
-                            .unwrap();
-                        let current_mouse_x = mouse_state_data.last_x;
-                        let current_mouse_y = mouse_state_data.last_y;
-
-                         let window = app_handle.get_window("main").unwrap();
-                        // TODO: Implement tremor filtering here:
-                        let new_x = current_mouse_x ;
-                        let new_y = current_mouse_y ;
-                        enigo.mouse_move_to(new_x, new_y);
-
-                        let pos = MousePos { x: new_x, y: new_y };
-
-                         send_mouse_pos(&window, pos).ok();
-
-                    } else {
-                        let (x, y) = enigo.mouse_location();
-                        let mut mouse_state_data = app_handle
-                            .state::<AppState>()
-                            .mouse_state
-                            .lock()
-                            .unwrap();
-                        mouse_state_data.last_x = x;
-                        mouse_state_data.last_y = y;
-
-                    }
-                    std::thread::sleep(Duration::from_millis(16));
-                }
-            });
-            Ok(())
-        })
-        .invoke_handler(tauri::generate_handler![get_mouse_pos, toggle_suppress])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+  tauri::Builder::default()
+      .invoke_handler(tauri::generate_handler![toggle_mouse_suppression])
+    .on_window_event(move |event| match event.event() {
+      tauri::WindowEvent::CloseRequested { .. } => {
+        std::process::exit(0);
+      }
+      _ => {}
+    })
+    .run(tauri::generate_context!())
+    .expect("error while running tauri application");
 }

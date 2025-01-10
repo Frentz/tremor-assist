@@ -1,42 +1,25 @@
-import { invoke, listen } from '@tauri-apps/api/tauri';
+import { invoke } from '@tauri-apps/api/tauri';
 
-let suppressInput = false;
 
-function getMousePos(){
-    invoke('get_mouse_pos').catch((error) => {
-            console.error("Error fetching mouse position:", error);
-         });
-}
+let mouseSuppressed = false;
 
-function toggleSuppression(){
-  suppressInput = !suppressInput;
-  invoke('toggle_suppress', {suppress: suppressInput}).catch((error) => {
-        console.error("Error toggling suppression:", error);
-      });
-}
-
-// get and process mouse updates
-listen('mouse_update', event => {
-  const { x, y } = event.payload;
-  const pos_label = document.getElementById("pos_label")
-  if(pos_label){
-    pos_label.innerText = `X: ${x}, Y: ${y}`
-  }
+document.getElementById('toggleMouse').addEventListener('click', () => {
+  mouseSuppressed = !mouseSuppressed;
+  invoke('toggle_mouse_suppression', { isSuppressed: mouseSuppressed })
+    .then(() => {
+       console.log("Toggled suppression to:", mouseSuppressed);
+       if(mouseSuppressed){
+          document.getElementById('mouse-suppressed-status').innerText = "Mouse suppression enabled";
+       } else {
+         document.getElementById('mouse-suppressed-status').innerText = "Mouse suppression disabled";
+       }
+    })
+    .catch((error) => {
+      console.error("Error invoking command:", error);
+    });
 });
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const pos_label = document.createElement('label');
-  pos_label.id = 'pos_label'
-  document.body.appendChild(pos_label)
-
-  const get_pos_button = document.createElement('button');
-  get_pos_button.innerText = 'Get Position';
-  get_pos_button.addEventListener('click', getMousePos);
-  document.body.appendChild(get_pos_button)
-
-  const toggle_button = document.createElement('button');
-  toggle_button.innerText = 'Toggle Suppress';
-  toggle_button.addEventListener('click', toggleSuppression);
-  document.body.appendChild(toggle_button)
+// Listen to the mouse position event
+window.addEventListener('tauri://mouse-position', function (event) {
+    console.log('mouse location:', event.detail)
 });

@@ -10,10 +10,19 @@
    - [x] Ensure proper state synchronization
 
 2. Mouse Suppression (Phase 2)
-   - [ ] Add Enigo integration
-   - [ ] Implement mouse movement control
-   - [ ] Add position validation
-   - [ ] Test suppression effectiveness
+   - [ ] Integrate `mouse_lock` tool
+     - [ ] Add function in Rust backend to invoke `mouse_lock`
+     - [ ] Ensure function is accessible via Tauri commands
+   - [ ] Update Frontend
+     - [ ] Add UI toggle for mouse suppression
+     - [ ] Reflect suppression state in UI
+   - [ ] Testing
+     - [ ] Test integration on macOS
+     - [ ] Verify logging during suppression
+   - [ ] Permissions
+     - [ ] Ensure input monitoring permissions on macOS
+   - [ ] Documentation
+     - [ ] Update documentation for new feature and permissions
 
 3. ✅ Code Cleanup
    - [x] Remove unused methods or add documentation for future use

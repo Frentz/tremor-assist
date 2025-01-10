@@ -2,8 +2,9 @@
 use tauri::{Window, Runtime, Emitter};
 use serde::{Serialize, Deserialize};
 use rdev::{listen, Event, EventType, Key};
-use std::{thread, time::{Instant, Duration}, sync::{Arc, atomic::{AtomicBool, Ordering}, Mutex, LazyLock}, collections::HashMap};
+use std::{thread, time::{Instant, Duration}, sync::{Arc, atomic::{AtomicBool, Ordering, AtomicI32}, Mutex, LazyLock}, collections::HashMap};
 use chrono::Local;
+use std::process::Command;
 
 mod mouse_control;
 use mouse_control::{MouseControlState, MousePos};
@@ -231,6 +232,48 @@ async fn get_mouse_position(state: tauri::State<'_, MouseControlState>) -> Resul
     Ok(MousePos { x, y })
 }
 
+static MOUSE_LOCK_PID: AtomicI32 = AtomicI32::new(0);
+
+#[tauri::command]
+async fn toggle_mouse_lock(enable: bool, state: tauri::State<'_, MouseControlState>) -> Result<(), String> {
+    if enable {
+        let (x, y) = state.mouse_state.get_current_pos();
+        log(&format!("Mouse suppression enabled at position: x={}, y={}", x, y));
+        
+        // Start the mouse_lock process
+        match Command::new("./macos_tool/mouse_lock")
+            .spawn()
+            .map_err(|e| format!("Failed to execute mouse_lock: {}", e))? {
+            child => {
+                MOUSE_LOCK_PID.store(child.id() as i32, Ordering::SeqCst);
+                log(&format!("Mouse lock process started with PID: {}", child.id()));
+            }
+        }
+    } else {
+        // Kill the mouse_lock process if it exists
+        let pid = MOUSE_LOCK_PID.load(Ordering::SeqCst);
+        if pid > 0 {
+            // Send SIGTERM for clean shutdown
+            if let Err(e) = Command::new("kill")
+                .arg("-TERM")  // Use SIGTERM for clean shutdown
+                .arg(pid.to_string())
+                .status() {
+                log(&format!("Failed to terminate mouse_lock process: {}", e));
+                // Try force kill if termination fails
+                if let Err(e) = Command::new("kill")
+                    .arg("-9")
+                    .arg(pid.to_string())
+                    .status() {
+                    log(&format!("Failed to force kill mouse_lock process: {}", e));
+                }
+            }
+            MOUSE_LOCK_PID.store(0, Ordering::SeqCst);
+        }
+        log("Mouse suppression disabled");
+    }
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     log("Application starting");
@@ -245,7 +288,8 @@ pub fn run() {
             log_event,
             toggle_mouse_suppression,
             emergency_stop,
-            get_mouse_position
+            get_mouse_position,
+            toggle_mouse_lock
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

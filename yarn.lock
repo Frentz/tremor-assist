@@ -1772,7 +1772,7 @@
     "@tamagui/use-event" "1.121.6"
     "@tamagui/use-force-update" "1.121.6"
 
-"@tauri-apps/api@^2.2.0":
+"@tauri-apps/api@^2.0.0", "@tauri-apps/api@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@tauri-apps/api/-/api-2.2.0.tgz#daaff2515b1a4ff1e763cf84a414548b02b566c5"
   integrity sha512-R8epOeZl1eJEl603aUMIGb4RXlhPjpgxbGVEaqY+0G5JG9vzV/clNlzTeqc+NLYXVqXcn8mb4c5b9pJIUDEyAg==
@@ -1842,6 +1842,13 @@
     "@tauri-apps/cli-win32-arm64-msvc" "2.2.2"
     "@tauri-apps/cli-win32-ia32-msvc" "2.2.2"
     "@tauri-apps/cli-win32-x64-msvc" "2.2.2"
+
+"@tauri-apps/plugin-opener@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@tauri-apps/plugin-opener/-/plugin-opener-2.2.3.tgz#6f0ddb715d9603ee51df574cea2f0cd0a07eaad3"
+  integrity sha512-QZDtGwqs2ssjc+GbHzTFlN0gtgXR7B1dcphIJ3vBrX+PXOdI58hP82TyT2rbH2myBVj2uWkyqKhM8FbbGopqng==
+  dependencies:
+    "@tauri-apps/api" "^2.0.0"
 
 "@types/babel__core@^7.20.5":
   version "7.20.5"
